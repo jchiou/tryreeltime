@@ -10,6 +10,7 @@ import { getMyId, getPeer } from '../lib/webrtc';
 import readFile from '../lib/fileReader';
 import appendChunk from '../lib/mediaSource';
 import calculateEmotions from '../lib/calculateEmotions';
+import mediaRecorder from '../lib/calculateEmotions'
 
 class App extends React.Component {
   constructor(props) {
@@ -36,10 +37,10 @@ class App extends React.Component {
       showLink: isSource,
       showBody: !isSource,
       emotions: {
-        0: {emotion: 'attention', val: 0},
-        1: {emotion: 'negative', val: 0},
-        2: {emotion: 'smile', val: 50},
-        3: {emotion: 'surprise', val: 50}
+        0: {emotion: 'Attention', val: 0},
+        1: {emotion: 'Negativity', val: 0},
+        2: {emotion: 'Smile', val: 50},
+        3: {emotion: 'Surprise', val: 50}
       },
       showChatOnly: false,
       localStreamingEmotions:null,
@@ -142,28 +143,29 @@ class App extends React.Component {
   }
 
 
-  // TODO: separate initAsSource from componentDidMount
-  /* intended:
-      - initAsSource is done only when either a user is authenticated (set myId to username --> the link would be '/${username}') OR when a user drops in a file OR when a user clicks 'chat only'.
-      - NOTE: myId is set in /lib/webrtc.js
-      - add a validator, if a file is present, then readFile etc. otherwise delete the video element from the document. (so we free up the real estate for a larger chat experience) and change the chat styling / className.
-  */
-
   initAsSource() {
     // Act as source: display a link that may be sent to a receiver
     getMyId().then((myId) => {
       this.setState({
-        myId,
+        myId: myId
       });
     });
   }
 
+<<<<<<< HEAD
   initAsReceiver(peerId) {
     // Junk function :)
   }
 
+=======
+  renderToDom (data) {
+    let currentEmotions = calculateEmotions(data);
+    console.log(currentEmotions);
+    this.setState({emotions: currentEmotions});
+  }
+>>>>>>> c95be3240d748997bb66a3c2f203a419d8484e64
   
-  handleShowChat() { // TODO: change <ChatSpace/> to only chat if no video
+  handleShowChat() {
     this.setState({
       showChatOnly: true,
       showLanding: false,
@@ -183,8 +185,13 @@ class App extends React.Component {
         {this.state.showLanding ? <Landing handleShowChat={this.handleShowChat} socket={this.props.socket} setFile={this.setFile} /> : null}
         {this.state.showLink ? <Link myId={this.state.myId} /> : null}
         {this.state.showBody ? <div className="wrapper">
+<<<<<<< HEAD
           <EmotionsDisplay emotions={this.state.emotions} />
           <span id='video'>
+=======
+          <EmotionsDisplay emotions={this.state.emotions} socket={this.props.socket}/>
+          <span id ='video'>
+>>>>>>> c95be3240d748997bb66a3c2f203a419d8484e64
             <Video socket={this.props.socket} />
           </span>
           <ChatSpace socket={this.props.socket} isSource={this.state.isSource} peerId={this.state.peerId} renderToDom={this.renderToDom.bind(this)}/>
