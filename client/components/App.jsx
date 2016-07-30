@@ -152,19 +152,22 @@ class App extends React.Component {
     });
   }
 
-<<<<<<< c95be3240d748997bb66a3c2f203a419d8484e64
+
+  initAsReceiver(peerId) {
+    // Junk function :)
+  }
+
+
   renderToDom (data) {
     let currentEmotions = calculateEmotions(data);
     console.log(currentEmotions);
     this.setState({emotions: currentEmotions});
   }
-=======
+
   initAsReceiver(peerId) {
     // Junk function :)
   }
 
->>>>>>> modularize connection to peers
-  
   handleShowChat() {
     this.setState({
       showChatOnly: true,
@@ -185,10 +188,10 @@ class App extends React.Component {
         {this.state.showLanding ? <Landing handleShowChat={this.handleShowChat} socket={this.props.socket} setFile={this.setFile} /> : null}
         {this.state.showLink ? <Link myId={this.state.myId} /> : null}
         {this.state.showBody ? <div className="wrapper">
+
           <EmotionsDisplay emotions={this.state.emotions} socket={this.props.socket}/>
           <span id ='video'>
-          <EmotionsDisplay emotions={this.state.emotions} />
-          <span id='video'>
+
             <Video socket={this.props.socket} />
           </span>
           <ChatSpace socket={this.props.socket} isSource={this.state.isSource} peerId={this.state.peerId} renderToDom={this.renderToDom.bind(this)}/>
